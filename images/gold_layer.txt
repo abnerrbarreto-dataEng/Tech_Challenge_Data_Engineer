@@ -1,0 +1,21 @@
+Diagrama da Camada Gold:
+
++---------------------+
+|   Camada Silver     |
+|   (Parquet)         |
++---------------------+
+          |
+          v
++---------------------+
+|   Agregação         |
+|   (aggregate_gold.py)|
+|   - Contagem por     |
+|     tipo e local    |
++---------------------+
+          |
+          v
++---------------------+
+|   Camada Gold       |
+|   - Formato: Parquet|
+|   - Dados agregados |
++---------------------+

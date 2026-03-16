@@ -1,0 +1,19 @@
+Exemplo de Preview do README:
+
+# Título Principal
+
+## Subtítulo
+
+- Lista item 1
+- Lista item 2
+
+**Negrito** e *itálico*.
+
+[Link](url)
+
+![Imagem](images/exemplo.png)
+
+Código:
+```python
+print("Olá")
+```

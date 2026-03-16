@@ -1,0 +1,18 @@
+Exemplo de Comando para Subir Containers:
+
+No terminal, execute:
+docker-compose up --build
+
+Isso irá:
+- Construir a imagem do Airflow
+- Iniciar serviços: Airflow, PostgreSQL, MinIO
+- Aguardar saúde dos serviços
+
+Output esperado:
+Creating network...
+Building airflow...
+Starting postgres...
+Starting minio...
+Starting airflow-webserver...
+
+Acesse: http://localhost:8080

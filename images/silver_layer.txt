@@ -1,0 +1,23 @@
+Diagrama da Camada Silver:
+
++---------------------+
+|   Camada Bronze     |
+|   (JSON)            |
++---------------------+
+          |
+          v
++---------------------+
+|   Transformação     |
+|   (transform_silver.py) |
+|   - Limpeza de dados |
+|   - Deduplicação     |
+|   - Particionamento  |
++---------------------+
+          |
+          v
++---------------------+
+|   Camada Silver     |
+|   - Formato: Parquet|
+|   - Particionado por |
+|     state_province  |
++---------------------+

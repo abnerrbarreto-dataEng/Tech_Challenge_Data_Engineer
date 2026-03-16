@@ -1,0 +1,29 @@
+[2026-03-15T03:51:13.524+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: brewery_data_pipeline.extract_bronze_layer manual__2026-03-15T03:51:12.327117+00:00 [queued]>
+[2026-03-15T03:51:13.533+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: brewery_data_pipeline.extract_bronze_layer manual__2026-03-15T03:51:12.327117+00:00 [queued]>
+[2026-03-15T03:51:13.534+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-03-15T03:51:13.549+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): extract_bronze_layer> on 2026-03-15 03:51:12.327117+00:00
+[2026-03-15T03:51:13.554+0000] {standard_task_runner.py:60} INFO - Started process 310 to run task
+[2026-03-15T03:51:13.557+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'brewery_data_pipeline', 'extract_bronze_layer', 'manual__2026-03-15T03:51:12.327117+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/brewery_pipeline.py', '--cfg-path', '/tmp/tmpzp8kn8ph']
+[2026-03-15T03:51:13.559+0000] {standard_task_runner.py:88} INFO - Job 5: Subtask extract_bronze_layer
+[2026-03-15T03:51:13.580+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-03-15T03:51:13.639+0000] {task_command.py:423} INFO - Running <TaskInstance: brewery_data_pipeline.extract_bronze_layer manual__2026-03-15T03:51:12.327117+00:00 [running]> on host 609fea0a21b5
+[2026-03-15T03:51:13.754+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='brewery_data_pipeline' AIRFLOW_CTX_TASK_ID='extract_bronze_layer' AIRFLOW_CTX_EXECUTION_DATE='2026-03-15T03:51:12.327117+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-15T03:51:12.327117+00:00'
+[2026-03-15T03:51:13.756+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-03-15T03:51:13.759+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/***/scripts/extract_breweries.py --execution_date 2026-03-15']
+[2026-03-15T03:51:13.773+0000] {subprocess.py:86} INFO - Output:
+[2026-03-15T03:51:14.005+0000] {subprocess.py:93} INFO - Traceback (most recent call last):
+[2026-03-15T03:51:14.006+0000] {subprocess.py:93} INFO -   File "/opt/***/scripts/extract_breweries.py", line 6, in <module>
+[2026-03-15T03:51:14.007+0000] {subprocess.py:93} INFO -     from minio import Minio # Novo: para criar o bucket se não existir
+[2026-03-15T03:51:14.007+0000] {subprocess.py:93} INFO - ModuleNotFoundError: No module named 'minio'
+[2026-03-15T03:51:14.016+0000] {subprocess.py:97} INFO - Command exited with return code 1
+[2026-03-15T03:51:14.029+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-03-15T03:51:14.031+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=brewery_data_pipeline, task_id=extract_bronze_layer, execution_date=20260315T035112, start_date=20260315T035113, end_date=20260315T035114
+[2026-03-15T03:51:14.045+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 5 for task extract_bronze_layer (Bash command failed. The command returned a non-zero exit code 1.; 310)
+[2026-03-15T03:51:14.091+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-03-15T03:51:14.112+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

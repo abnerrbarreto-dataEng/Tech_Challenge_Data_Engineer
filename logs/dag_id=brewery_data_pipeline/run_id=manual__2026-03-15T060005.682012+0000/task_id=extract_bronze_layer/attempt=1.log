@@ -1,0 +1,210 @@
+[2026-03-15T06:00:06.260+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: brewery_data_pipeline.extract_bronze_layer manual__2026-03-15T06:00:05.682012+00:00 [queued]>
+[2026-03-15T06:00:06.270+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: brewery_data_pipeline.extract_bronze_layer manual__2026-03-15T06:00:05.682012+00:00 [queued]>
+[2026-03-15T06:00:06.271+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-03-15T06:00:06.288+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): extract_bronze_layer> on 2026-03-15 06:00:05.682012+00:00
+[2026-03-15T06:00:06.292+0000] {standard_task_runner.py:60} INFO - Started process 214 to run task
+[2026-03-15T06:00:06.298+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'brewery_data_pipeline', 'extract_bronze_layer', 'manual__2026-03-15T06:00:05.682012+00:00', '--job-id', '6', '--raw', '--subdir', 'DAGS_FOLDER/brewery_pipeline.py', '--cfg-path', '/tmp/tmp0r_nsn76']
+[2026-03-15T06:00:06.303+0000] {standard_task_runner.py:88} INFO - Job 6: Subtask extract_bronze_layer
+[2026-03-15T06:00:06.329+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-03-15T06:00:06.403+0000] {task_command.py:423} INFO - Running <TaskInstance: brewery_data_pipeline.extract_bronze_layer manual__2026-03-15T06:00:05.682012+00:00 [running]> on host d8795bf56cc1
+[2026-03-15T06:00:06.494+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='brewery_data_pipeline' AIRFLOW_CTX_TASK_ID='extract_bronze_layer' AIRFLOW_CTX_EXECUTION_DATE='2026-03-15T06:00:05.682012+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-15T06:00:05.682012+00:00'
+[2026-03-15T06:00:06.495+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-03-15T06:00:06.497+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/***/scripts/extract_breweries.py --execution_date 2026-03-15']
+[2026-03-15T06:00:06.504+0000] {subprocess.py:86} INFO - Output:
+[2026-03-15T06:01:38.905+0000] {subprocess.py:93} INFO - Iniciando script de extração em: 2026-03-15 06:00:06.837589
+[2026-03-15T06:01:38.907+0000] {subprocess.py:93} INFO - Bucket 'brewery-datalake' já existe no MinIO.
+[2026-03-15T06:01:38.908+0000] {subprocess.py:93} INFO - Iniciando a busca de cervejarias da API: https://api.openbrewerydb.org/v1/breweries
+[2026-03-15T06:01:38.908+0000] {subprocess.py:93} INFO - Página 1 buscada. Total de cervejarias até agora: 50
+[2026-03-15T06:01:38.909+0000] {subprocess.py:93} INFO - Página 2 buscada. Total de cervejarias até agora: 100
+[2026-03-15T06:01:38.911+0000] {subprocess.py:93} INFO - Página 3 buscada. Total de cervejarias até agora: 150
+[2026-03-15T06:01:38.913+0000] {subprocess.py:93} INFO - Página 4 buscada. Total de cervejarias até agora: 200
+[2026-03-15T06:01:38.914+0000] {subprocess.py:93} INFO - Página 5 buscada. Total de cervejarias até agora: 250
+[2026-03-15T06:01:38.914+0000] {subprocess.py:93} INFO - Página 6 buscada. Total de cervejarias até agora: 300
+[2026-03-15T06:01:38.915+0000] {subprocess.py:93} INFO - Página 7 buscada. Total de cervejarias até agora: 350
+[2026-03-15T06:01:38.915+0000] {subprocess.py:93} INFO - Página 8 buscada. Total de cervejarias até agora: 400
+[2026-03-15T06:01:38.915+0000] {subprocess.py:93} INFO - Página 9 buscada. Total de cervejarias até agora: 450
+[2026-03-15T06:01:38.916+0000] {subprocess.py:93} INFO - Página 10 buscada. Total de cervejarias até agora: 500
+[2026-03-15T06:01:38.916+0000] {subprocess.py:93} INFO - Página 11 buscada. Total de cervejarias até agora: 550
+[2026-03-15T06:01:38.916+0000] {subprocess.py:93} INFO - Página 12 buscada. Total de cervejarias até agora: 600
+[2026-03-15T06:01:38.917+0000] {subprocess.py:93} INFO - Página 13 buscada. Total de cervejarias até agora: 650
+[2026-03-15T06:01:38.917+0000] {subprocess.py:93} INFO - Página 14 buscada. Total de cervejarias até agora: 700
+[2026-03-15T06:01:38.917+0000] {subprocess.py:93} INFO - Página 15 buscada. Total de cervejarias até agora: 750
+[2026-03-15T06:01:38.918+0000] {subprocess.py:93} INFO - Página 16 buscada. Total de cervejarias até agora: 800
+[2026-03-15T06:01:38.918+0000] {subprocess.py:93} INFO - Página 17 buscada. Total de cervejarias até agora: 850
+[2026-03-15T06:01:38.918+0000] {subprocess.py:93} INFO - Página 18 buscada. Total de cervejarias até agora: 900
+[2026-03-15T06:01:38.918+0000] {subprocess.py:93} INFO - Página 19 buscada. Total de cervejarias até agora: 950
+[2026-03-15T06:01:38.919+0000] {subprocess.py:93} INFO - Página 20 buscada. Total de cervejarias até agora: 1000
+[2026-03-15T06:01:38.920+0000] {subprocess.py:93} INFO - Página 21 buscada. Total de cervejarias até agora: 1050
+[2026-03-15T06:01:38.921+0000] {subprocess.py:93} INFO - Página 22 buscada. Total de cervejarias até agora: 1100
+[2026-03-15T06:01:38.921+0000] {subprocess.py:93} INFO - Página 23 buscada. Total de cervejarias até agora: 1150
+[2026-03-15T06:01:38.921+0000] {subprocess.py:93} INFO - Página 24 buscada. Total de cervejarias até agora: 1200
+[2026-03-15T06:01:38.922+0000] {subprocess.py:93} INFO - Página 25 buscada. Total de cervejarias até agora: 1250
+[2026-03-15T06:01:38.922+0000] {subprocess.py:93} INFO - Página 26 buscada. Total de cervejarias até agora: 1300
+[2026-03-15T06:01:38.922+0000] {subprocess.py:93} INFO - Página 27 buscada. Total de cervejarias até agora: 1350
+[2026-03-15T06:01:38.922+0000] {subprocess.py:93} INFO - Página 28 buscada. Total de cervejarias até agora: 1400
+[2026-03-15T06:01:38.923+0000] {subprocess.py:93} INFO - Página 29 buscada. Total de cervejarias até agora: 1450
+[2026-03-15T06:01:38.924+0000] {subprocess.py:93} INFO - Página 30 buscada. Total de cervejarias até agora: 1500
+[2026-03-15T06:01:38.925+0000] {subprocess.py:93} INFO - Página 31 buscada. Total de cervejarias até agora: 1550
+[2026-03-15T06:01:38.925+0000] {subprocess.py:93} INFO - Página 32 buscada. Total de cervejarias até agora: 1600
+[2026-03-15T06:01:38.926+0000] {subprocess.py:93} INFO - Página 33 buscada. Total de cervejarias até agora: 1650
+[2026-03-15T06:01:38.926+0000] {subprocess.py:93} INFO - Página 34 buscada. Total de cervejarias até agora: 1700
+[2026-03-15T06:01:38.926+0000] {subprocess.py:93} INFO - Página 35 buscada. Total de cervejarias até agora: 1750
+[2026-03-15T06:01:38.927+0000] {subprocess.py:93} INFO - Página 36 buscada. Total de cervejarias até agora: 1800
+[2026-03-15T06:01:38.927+0000] {subprocess.py:93} INFO - Página 37 buscada. Total de cervejarias até agora: 1850
+[2026-03-15T06:01:38.927+0000] {subprocess.py:93} INFO - Página 38 buscada. Total de cervejarias até agora: 1900
+[2026-03-15T06:01:38.928+0000] {subprocess.py:93} INFO - Página 39 buscada. Total de cervejarias até agora: 1950
+[2026-03-15T06:01:38.928+0000] {subprocess.py:93} INFO - Página 40 buscada. Total de cervejarias até agora: 2000
+[2026-03-15T06:01:38.928+0000] {subprocess.py:93} INFO - Página 41 buscada. Total de cervejarias até agora: 2050
+[2026-03-15T06:01:38.929+0000] {subprocess.py:93} INFO - Página 42 buscada. Total de cervejarias até agora: 2100
+[2026-03-15T06:01:38.929+0000] {subprocess.py:93} INFO - Página 43 buscada. Total de cervejarias até agora: 2150
+[2026-03-15T06:01:38.930+0000] {subprocess.py:93} INFO - Página 44 buscada. Total de cervejarias até agora: 2200
+[2026-03-15T06:01:38.930+0000] {subprocess.py:93} INFO - Página 45 buscada. Total de cervejarias até agora: 2250
+[2026-03-15T06:01:38.930+0000] {subprocess.py:93} INFO - Página 46 buscada. Total de cervejarias até agora: 2300
+[2026-03-15T06:01:38.931+0000] {subprocess.py:93} INFO - Página 47 buscada. Total de cervejarias até agora: 2350
+[2026-03-15T06:01:38.931+0000] {subprocess.py:93} INFO - Página 48 buscada. Total de cervejarias até agora: 2400
+[2026-03-15T06:01:38.931+0000] {subprocess.py:93} INFO - Página 49 buscada. Total de cervejarias até agora: 2450
+[2026-03-15T06:01:38.932+0000] {subprocess.py:93} INFO - Página 50 buscada. Total de cervejarias até agora: 2500
+[2026-03-15T06:01:38.932+0000] {subprocess.py:93} INFO - Página 51 buscada. Total de cervejarias até agora: 2550
+[2026-03-15T06:01:38.932+0000] {subprocess.py:93} INFO - Página 52 buscada. Total de cervejarias até agora: 2600
+[2026-03-15T06:01:38.932+0000] {subprocess.py:93} INFO - Página 53 buscada. Total de cervejarias até agora: 2650
+[2026-03-15T06:01:38.933+0000] {subprocess.py:93} INFO - Página 54 buscada. Total de cervejarias até agora: 2700
+[2026-03-15T06:01:38.933+0000] {subprocess.py:93} INFO - Página 55 buscada. Total de cervejarias até agora: 2750
+[2026-03-15T06:01:38.933+0000] {subprocess.py:93} INFO - Página 56 buscada. Total de cervejarias até agora: 2800
+[2026-03-15T06:01:38.933+0000] {subprocess.py:93} INFO - Página 57 buscada. Total de cervejarias até agora: 2850
+[2026-03-15T06:01:38.934+0000] {subprocess.py:93} INFO - Página 58 buscada. Total de cervejarias até agora: 2900
+[2026-03-15T06:01:38.934+0000] {subprocess.py:93} INFO - Página 59 buscada. Total de cervejarias até agora: 2950
+[2026-03-15T06:01:38.934+0000] {subprocess.py:93} INFO - Página 60 buscada. Total de cervejarias até agora: 3000
+[2026-03-15T06:01:38.935+0000] {subprocess.py:93} INFO - Página 61 buscada. Total de cervejarias até agora: 3050
+[2026-03-15T06:01:38.935+0000] {subprocess.py:93} INFO - Página 62 buscada. Total de cervejarias até agora: 3100
+[2026-03-15T06:01:38.935+0000] {subprocess.py:93} INFO - Página 63 buscada. Total de cervejarias até agora: 3150
+[2026-03-15T06:01:38.936+0000] {subprocess.py:93} INFO - Página 64 buscada. Total de cervejarias até agora: 3200
+[2026-03-15T06:01:38.937+0000] {subprocess.py:93} INFO - Página 65 buscada. Total de cervejarias até agora: 3250
+[2026-03-15T06:01:38.937+0000] {subprocess.py:93} INFO - Página 66 buscada. Total de cervejarias até agora: 3300
+[2026-03-15T06:01:38.937+0000] {subprocess.py:93} INFO - Página 67 buscada. Total de cervejarias até agora: 3350
+[2026-03-15T06:01:38.938+0000] {subprocess.py:93} INFO - Página 68 buscada. Total de cervejarias até agora: 3400
+[2026-03-15T06:01:38.938+0000] {subprocess.py:93} INFO - Página 69 buscada. Total de cervejarias até agora: 3450
+[2026-03-15T06:01:38.938+0000] {subprocess.py:93} INFO - Página 70 buscada. Total de cervejarias até agora: 3500
+[2026-03-15T06:01:38.938+0000] {subprocess.py:93} INFO - Página 71 buscada. Total de cervejarias até agora: 3550
+[2026-03-15T06:01:38.939+0000] {subprocess.py:93} INFO - Página 72 buscada. Total de cervejarias até agora: 3600
+[2026-03-15T06:01:38.940+0000] {subprocess.py:93} INFO - Página 73 buscada. Total de cervejarias até agora: 3650
+[2026-03-15T06:01:38.940+0000] {subprocess.py:93} INFO - Página 74 buscada. Total de cervejarias até agora: 3700
+[2026-03-15T06:01:38.941+0000] {subprocess.py:93} INFO - Página 75 buscada. Total de cervejarias até agora: 3750
+[2026-03-15T06:01:38.941+0000] {subprocess.py:93} INFO - Página 76 buscada. Total de cervejarias até agora: 3800
+[2026-03-15T06:01:38.941+0000] {subprocess.py:93} INFO - Página 77 buscada. Total de cervejarias até agora: 3850
+[2026-03-15T06:01:38.942+0000] {subprocess.py:93} INFO - Página 78 buscada. Total de cervejarias até agora: 3900
+[2026-03-15T06:01:38.943+0000] {subprocess.py:93} INFO - Página 79 buscada. Total de cervejarias até agora: 3950
+[2026-03-15T06:01:38.943+0000] {subprocess.py:93} INFO - Página 80 buscada. Total de cervejarias até agora: 4000
+[2026-03-15T06:01:38.943+0000] {subprocess.py:93} INFO - Página 81 buscada. Total de cervejarias até agora: 4050
+[2026-03-15T06:01:38.944+0000] {subprocess.py:93} INFO - Página 82 buscada. Total de cervejarias até agora: 4100
+[2026-03-15T06:01:38.944+0000] {subprocess.py:93} INFO - Página 83 buscada. Total de cervejarias até agora: 4150
+[2026-03-15T06:01:38.944+0000] {subprocess.py:93} INFO - Página 84 buscada. Total de cervejarias até agora: 4200
+[2026-03-15T06:01:38.944+0000] {subprocess.py:93} INFO - Página 85 buscada. Total de cervejarias até agora: 4250
+[2026-03-15T06:01:38.945+0000] {subprocess.py:93} INFO - Página 86 buscada. Total de cervejarias até agora: 4300
+[2026-03-15T06:01:38.945+0000] {subprocess.py:93} INFO - Página 87 buscada. Total de cervejarias até agora: 4350
+[2026-03-15T06:01:38.945+0000] {subprocess.py:93} INFO - Página 88 buscada. Total de cervejarias até agora: 4400
+[2026-03-15T06:01:38.946+0000] {subprocess.py:93} INFO - Página 89 buscada. Total de cervejarias até agora: 4450
+[2026-03-15T06:01:38.946+0000] {subprocess.py:93} INFO - Página 90 buscada. Total de cervejarias até agora: 4500
+[2026-03-15T06:01:38.946+0000] {subprocess.py:93} INFO - Página 91 buscada. Total de cervejarias até agora: 4550
+[2026-03-15T06:01:38.947+0000] {subprocess.py:93} INFO - Página 92 buscada. Total de cervejarias até agora: 4600
+[2026-03-15T06:01:38.947+0000] {subprocess.py:93} INFO - Página 93 buscada. Total de cervejarias até agora: 4650
+[2026-03-15T06:01:38.947+0000] {subprocess.py:93} INFO - Página 94 buscada. Total de cervejarias até agora: 4700
+[2026-03-15T06:01:38.947+0000] {subprocess.py:93} INFO - Página 95 buscada. Total de cervejarias até agora: 4750
+[2026-03-15T06:01:38.948+0000] {subprocess.py:93} INFO - Página 96 buscada. Total de cervejarias até agora: 4800
+[2026-03-15T06:01:38.948+0000] {subprocess.py:93} INFO - Página 97 buscada. Total de cervejarias até agora: 4850
+[2026-03-15T06:01:38.948+0000] {subprocess.py:93} INFO - Página 98 buscada. Total de cervejarias até agora: 4900
+[2026-03-15T06:01:38.948+0000] {subprocess.py:93} INFO - Página 99 buscada. Total de cervejarias até agora: 4950
+[2026-03-15T06:01:38.948+0000] {subprocess.py:93} INFO - Página 100 buscada. Total de cervejarias até agora: 5000
+[2026-03-15T06:01:38.949+0000] {subprocess.py:93} INFO - Página 101 buscada. Total de cervejarias até agora: 5050
+[2026-03-15T06:01:38.949+0000] {subprocess.py:93} INFO - Página 102 buscada. Total de cervejarias até agora: 5100
+[2026-03-15T06:01:38.949+0000] {subprocess.py:93} INFO - Página 103 buscada. Total de cervejarias até agora: 5150
+[2026-03-15T06:01:38.949+0000] {subprocess.py:93} INFO - Página 104 buscada. Total de cervejarias até agora: 5200
+[2026-03-15T06:01:38.950+0000] {subprocess.py:93} INFO - Página 105 buscada. Total de cervejarias até agora: 5250
+[2026-03-15T06:01:38.950+0000] {subprocess.py:93} INFO - Página 106 buscada. Total de cervejarias até agora: 5300
+[2026-03-15T06:01:38.950+0000] {subprocess.py:93} INFO - Página 107 buscada. Total de cervejarias até agora: 5350
+[2026-03-15T06:01:38.950+0000] {subprocess.py:93} INFO - Página 108 buscada. Total de cervejarias até agora: 5400
+[2026-03-15T06:01:38.951+0000] {subprocess.py:93} INFO - Página 109 buscada. Total de cervejarias até agora: 5450
+[2026-03-15T06:01:38.951+0000] {subprocess.py:93} INFO - Página 110 buscada. Total de cervejarias até agora: 5500
+[2026-03-15T06:01:38.951+0000] {subprocess.py:93} INFO - Página 111 buscada. Total de cervejarias até agora: 5550
+[2026-03-15T06:01:38.951+0000] {subprocess.py:93} INFO - Página 112 buscada. Total de cervejarias até agora: 5600
+[2026-03-15T06:01:38.951+0000] {subprocess.py:93} INFO - Página 113 buscada. Total de cervejarias até agora: 5650
+[2026-03-15T06:01:38.952+0000] {subprocess.py:93} INFO - Página 114 buscada. Total de cervejarias até agora: 5700
+[2026-03-15T06:01:38.953+0000] {subprocess.py:93} INFO - Página 115 buscada. Total de cervejarias até agora: 5750
+[2026-03-15T06:01:38.954+0000] {subprocess.py:93} INFO - Página 116 buscada. Total de cervejarias até agora: 5800
+[2026-03-15T06:01:38.954+0000] {subprocess.py:93} INFO - Página 117 buscada. Total de cervejarias até agora: 5850
+[2026-03-15T06:01:38.954+0000] {subprocess.py:93} INFO - Página 118 buscada. Total de cervejarias até agora: 5900
+[2026-03-15T06:01:38.955+0000] {subprocess.py:93} INFO - Página 119 buscada. Total de cervejarias até agora: 5950
+[2026-03-15T06:01:38.955+0000] {subprocess.py:93} INFO - Página 120 buscada. Total de cervejarias até agora: 6000
+[2026-03-15T06:01:38.955+0000] {subprocess.py:93} INFO - Página 121 buscada. Total de cervejarias até agora: 6050
+[2026-03-15T06:01:38.955+0000] {subprocess.py:93} INFO - Página 122 buscada. Total de cervejarias até agora: 6100
+[2026-03-15T06:01:38.956+0000] {subprocess.py:93} INFO - Página 123 buscada. Total de cervejarias até agora: 6150
+[2026-03-15T06:01:38.957+0000] {subprocess.py:93} INFO - Página 124 buscada. Total de cervejarias até agora: 6200
+[2026-03-15T06:01:38.957+0000] {subprocess.py:93} INFO - Página 125 buscada. Total de cervejarias até agora: 6250
+[2026-03-15T06:01:38.957+0000] {subprocess.py:93} INFO - Página 126 buscada. Total de cervejarias até agora: 6300
+[2026-03-15T06:01:38.958+0000] {subprocess.py:93} INFO - Página 127 buscada. Total de cervejarias até agora: 6350
+[2026-03-15T06:01:38.958+0000] {subprocess.py:93} INFO - Página 128 buscada. Total de cervejarias até agora: 6400
+[2026-03-15T06:01:38.958+0000] {subprocess.py:93} INFO - Página 129 buscada. Total de cervejarias até agora: 6450
+[2026-03-15T06:01:38.959+0000] {subprocess.py:93} INFO - Página 130 buscada. Total de cervejarias até agora: 6500
+[2026-03-15T06:01:38.959+0000] {subprocess.py:93} INFO - Página 131 buscada. Total de cervejarias até agora: 6550
+[2026-03-15T06:01:38.959+0000] {subprocess.py:93} INFO - Página 132 buscada. Total de cervejarias até agora: 6600
+[2026-03-15T06:01:38.959+0000] {subprocess.py:93} INFO - Página 133 buscada. Total de cervejarias até agora: 6650
+[2026-03-15T06:01:38.960+0000] {subprocess.py:93} INFO - Página 134 buscada. Total de cervejarias até agora: 6700
+[2026-03-15T06:01:38.960+0000] {subprocess.py:93} INFO - Página 135 buscada. Total de cervejarias até agora: 6750
+[2026-03-15T06:01:38.960+0000] {subprocess.py:93} INFO - Página 136 buscada. Total de cervejarias até agora: 6800
+[2026-03-15T06:01:38.960+0000] {subprocess.py:93} INFO - Página 137 buscada. Total de cervejarias até agora: 6850
+[2026-03-15T06:02:10.355+0000] {subprocess.py:93} INFO - Página 138 buscada. Total de cervejarias até agora: 6900
+[2026-03-15T06:02:10.356+0000] {subprocess.py:93} INFO - Página 139 buscada. Total de cervejarias até agora: 6950
+[2026-03-15T06:02:10.357+0000] {subprocess.py:93} INFO - Página 140 buscada. Total de cervejarias até agora: 7000
+[2026-03-15T06:02:10.357+0000] {subprocess.py:93} INFO - Página 141 buscada. Total de cervejarias até agora: 7050
+[2026-03-15T06:02:10.357+0000] {subprocess.py:93} INFO - Página 142 buscada. Total de cervejarias até agora: 7100
+[2026-03-15T06:02:10.358+0000] {subprocess.py:93} INFO - Página 143 buscada. Total de cervejarias até agora: 7150
+[2026-03-15T06:02:10.358+0000] {subprocess.py:93} INFO - Página 144 buscada. Total de cervejarias até agora: 7200
+[2026-03-15T06:02:10.359+0000] {subprocess.py:93} INFO - Página 145 buscada. Total de cervejarias até agora: 7250
+[2026-03-15T06:02:10.359+0000] {subprocess.py:93} INFO - Página 146 buscada. Total de cervejarias até agora: 7300
+[2026-03-15T06:02:10.359+0000] {subprocess.py:93} INFO - Página 147 buscada. Total de cervejarias até agora: 7350
+[2026-03-15T06:02:10.360+0000] {subprocess.py:93} INFO - Página 148 buscada. Total de cervejarias até agora: 7400
+[2026-03-15T06:02:10.360+0000] {subprocess.py:93} INFO - Página 149 buscada. Total de cervejarias até agora: 7450
+[2026-03-15T06:02:10.360+0000] {subprocess.py:93} INFO - Página 150 buscada. Total de cervejarias até agora: 7500
+[2026-03-15T06:02:10.361+0000] {subprocess.py:93} INFO - Página 151 buscada. Total de cervejarias até agora: 7550
+[2026-03-15T06:02:10.361+0000] {subprocess.py:93} INFO - Página 152 buscada. Total de cervejarias até agora: 7600
+[2026-03-15T06:02:10.362+0000] {subprocess.py:93} INFO - Página 153 buscada. Total de cervejarias até agora: 7650
+[2026-03-15T06:02:10.362+0000] {subprocess.py:93} INFO - Página 154 buscada. Total de cervejarias até agora: 7700
+[2026-03-15T06:02:10.363+0000] {subprocess.py:93} INFO - Página 155 buscada. Total de cervejarias até agora: 7750
+[2026-03-15T06:02:10.363+0000] {subprocess.py:93} INFO - Página 156 buscada. Total de cervejarias até agora: 7800
+[2026-03-15T06:02:10.363+0000] {subprocess.py:93} INFO - Página 157 buscada. Total de cervejarias até agora: 7850
+[2026-03-15T06:02:10.364+0000] {subprocess.py:93} INFO - Página 158 buscada. Total de cervejarias até agora: 7900
+[2026-03-15T06:02:10.364+0000] {subprocess.py:93} INFO - Página 159 buscada. Total de cervejarias até agora: 7950
+[2026-03-15T06:02:10.364+0000] {subprocess.py:93} INFO - Página 160 buscada. Total de cervejarias até agora: 8000
+[2026-03-15T06:02:10.365+0000] {subprocess.py:93} INFO - Página 161 buscada. Total de cervejarias até agora: 8050
+[2026-03-15T06:02:10.366+0000] {subprocess.py:93} INFO - Página 162 buscada. Total de cervejarias até agora: 8100
+[2026-03-15T06:02:10.366+0000] {subprocess.py:93} INFO - Página 163 buscada. Total de cervejarias até agora: 8150
+[2026-03-15T06:02:10.367+0000] {subprocess.py:93} INFO - Página 164 buscada. Total de cervejarias até agora: 8200
+[2026-03-15T06:02:10.367+0000] {subprocess.py:93} INFO - Página 165 buscada. Total de cervejarias até agora: 8250
+[2026-03-15T06:02:10.368+0000] {subprocess.py:93} INFO - Página 166 buscada. Total de cervejarias até agora: 8300
+[2026-03-15T06:02:10.368+0000] {subprocess.py:93} INFO - Página 167 buscada. Total de cervejarias até agora: 8350
+[2026-03-15T06:02:10.369+0000] {subprocess.py:93} INFO - Página 168 buscada. Total de cervejarias até agora: 8400
+[2026-03-15T06:02:10.371+0000] {subprocess.py:93} INFO - Página 169 buscada. Total de cervejarias até agora: 8450
+[2026-03-15T06:02:10.371+0000] {subprocess.py:93} INFO - Página 170 buscada. Total de cervejarias até agora: 8500
+[2026-03-15T06:02:10.372+0000] {subprocess.py:93} INFO - Página 171 buscada. Total de cervejarias até agora: 8550
+[2026-03-15T06:02:10.372+0000] {subprocess.py:93} INFO - Página 172 buscada. Total de cervejarias até agora: 8600
+[2026-03-15T06:02:10.372+0000] {subprocess.py:93} INFO - Página 173 buscada. Total de cervejarias até agora: 8650
+[2026-03-15T06:02:10.373+0000] {subprocess.py:93} INFO - Página 174 buscada. Total de cervejarias até agora: 8700
+[2026-03-15T06:02:10.373+0000] {subprocess.py:93} INFO - Página 175 buscada. Total de cervejarias até agora: 8750
+[2026-03-15T06:02:10.373+0000] {subprocess.py:93} INFO - Página 176 buscada. Total de cervejarias até agora: 8800
+[2026-03-15T06:02:10.374+0000] {subprocess.py:93} INFO - Página 177 buscada. Total de cervejarias até agora: 8850
+[2026-03-15T06:02:10.374+0000] {subprocess.py:93} INFO - Página 178 buscada. Total de cervejarias até agora: 8900
+[2026-03-15T06:02:10.375+0000] {subprocess.py:93} INFO - Página 179 buscada. Total de cervejarias até agora: 8950
+[2026-03-15T06:02:10.375+0000] {subprocess.py:93} INFO - Página 180 buscada. Total de cervejarias até agora: 9000
+[2026-03-15T06:02:10.375+0000] {subprocess.py:93} INFO - Página 181 buscada. Total de cervejarias até agora: 9050
+[2026-03-15T06:02:10.375+0000] {subprocess.py:93} INFO - Página 182 buscada. Total de cervejarias até agora: 9100
+[2026-03-15T06:02:10.376+0000] {subprocess.py:93} INFO - Página 183 buscada. Total de cervejarias até agora: 9150
+[2026-03-15T06:02:10.376+0000] {subprocess.py:93} INFO - Página 184 buscada. Total de cervejarias até agora: 9200
+[2026-03-15T06:02:10.376+0000] {subprocess.py:93} INFO - Página 185 buscada. Total de cervejarias até agora: 9250
+[2026-03-15T06:02:10.376+0000] {subprocess.py:93} INFO - Página 186 buscada. Total de cervejarias até agora: 9251
+[2026-03-15T06:02:10.376+0000] {subprocess.py:93} INFO - Página 187 vazia. Todas as cervejarias foram buscadas.
+[2026-03-15T06:02:10.377+0000] {subprocess.py:93} INFO - Busca completa. Total de cervejarias encontradas: 9251
+[2026-03-15T06:02:10.377+0000] {subprocess.py:93} INFO - Dados brutos salvos em s3a://brewery-datalake/bronze/breweries/2026-03-15/breweries_raw.json
+[2026-03-15T06:02:10.377+0000] {subprocess.py:93} INFO - Script de extração finalizado em: 2026-03-15 06:02:10.355620
+[2026-03-15T06:02:10.378+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-03-15T06:02:10.411+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=brewery_data_pipeline, task_id=extract_bronze_layer, execution_date=20260315T060005, start_date=20260315T060006, end_date=20260315T060210
+[2026-03-15T06:02:10.457+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-03-15T06:02:10.490+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

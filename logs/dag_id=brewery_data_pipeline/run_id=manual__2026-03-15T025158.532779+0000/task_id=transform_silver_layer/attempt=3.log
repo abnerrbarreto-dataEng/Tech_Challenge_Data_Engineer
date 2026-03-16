@@ -1,0 +1,34 @@
+[2026-03-15T03:02:05.553+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: brewery_data_pipeline.transform_silver_layer manual__2026-03-15T02:51:58.532779+00:00 [queued]>
+[2026-03-15T03:02:05.564+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: brewery_data_pipeline.transform_silver_layer manual__2026-03-15T02:51:58.532779+00:00 [queued]>
+[2026-03-15T03:02:05.565+0000] {taskinstance.py:2170} INFO - Starting attempt 3 of 4
+[2026-03-15T03:02:05.577+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): transform_silver_layer> on 2026-03-15 02:51:58.532779+00:00
+[2026-03-15T03:02:05.581+0000] {standard_task_runner.py:60} INFO - Started process 4160 to run task
+[2026-03-15T03:02:05.584+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'brewery_data_pipeline', 'transform_silver_layer', 'manual__2026-03-15T02:51:58.532779+00:00', '--job-id', '13', '--raw', '--subdir', 'DAGS_FOLDER/brewery_pipeline.py', '--cfg-path', '/tmp/tmpb2p0kjgs']
+[2026-03-15T03:02:05.586+0000] {standard_task_runner.py:88} INFO - Job 13: Subtask transform_silver_layer
+[2026-03-15T03:02:05.601+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-03-15T03:02:05.649+0000] {task_command.py:423} INFO - Running <TaskInstance: brewery_data_pipeline.transform_silver_layer manual__2026-03-15T02:51:58.532779+00:00 [running]> on host 7ae72f5da3a1
+[2026-03-15T03:02:05.714+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='brewery_data_pipeline' AIRFLOW_CTX_TASK_ID='transform_silver_layer' AIRFLOW_CTX_EXECUTION_DATE='2026-03-15T02:51:58.532779+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-15T02:51:58.532779+00:00'
+[2026-03-15T03:02:05.715+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-03-15T03:02:05.717+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash /opt/***/scripts/run_pyspark.sh /opt/***/scripts/transform_silver.py 2026-03-15']
+[2026-03-15T03:02:05.725+0000] {subprocess.py:86} INFO - Output:
+[2026-03-15T03:02:05.734+0000] {subprocess.py:93} INFO - --- Iniciando script PySpark: /opt/***/scripts/transform_silver.py para a data: 2026-03-15 ---
+[2026-03-15T03:02:05.763+0000] {subprocess.py:93} INFO - /home/***/.local/lib/python3.8/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2026-03-15T03:02:07.751+0000] {subprocess.py:93} INFO - Traceback (most recent call last):
+[2026-03-15T03:02:07.753+0000] {subprocess.py:93} INFO -   File "/opt/***/scripts/transform_silver.py", line 106, in <module>
+[2026-03-15T03:02:07.775+0000] {subprocess.py:93} INFO -     silver_output_for_cleanup = os.path_join(BASE_PATH, "silver", "breweries", args.execution_date)
+[2026-03-15T03:02:07.777+0000] {subprocess.py:93} INFO - AttributeError: module 'os' has no attribute 'path_join'
+[2026-03-15T03:02:07.813+0000] {subprocess.py:93} INFO - 26/03/15 03:02:07 INFO ShutdownHookManager: Shutdown hook called
+[2026-03-15T03:02:07.816+0000] {subprocess.py:93} INFO - 26/03/15 03:02:07 INFO ShutdownHookManager: Deleting directory /tmp/spark-233b4a4a-602d-4f1f-a6b0-d5a6f6b48d1c
+[2026-03-15T03:02:07.865+0000] {subprocess.py:93} INFO - --- Script PySpark /opt/***/scripts/transform_silver.py falhou. ---
+[2026-03-15T03:02:07.866+0000] {subprocess.py:97} INFO - Command exited with return code 1
+[2026-03-15T03:02:07.875+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-03-15T03:02:07.879+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=brewery_data_pipeline, task_id=transform_silver_layer, execution_date=20260315T025158, start_date=20260315T030205, end_date=20260315T030207
+[2026-03-15T03:02:07.891+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 13 for task transform_silver_layer (Bash command failed. The command returned a non-zero exit code 1.; 4160)
+[2026-03-15T03:02:07.927+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-03-15T03:02:07.946+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

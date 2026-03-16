@@ -1,0 +1,12 @@
+Transformação Silver:
+
+1. Ler JSON da Bronze
+2. Coalesce campos nulos (state_province)
+3. Remover duplicatas por ID
+4. Converter para Parquet
+5. Particionar por state_province
+6. Salvar no MinIO
+
+Exemplo de Transformação:
+- Campo nulo -> Usar fallback
+- Deduplicação: Manter único por ID

@@ -1,0 +1,32 @@
+[2026-03-15T06:02:11.596+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: brewery_data_pipeline.transform_silver_layer manual__2026-03-15T06:00:05.682012+00:00 [queued]>
+[2026-03-15T06:02:11.604+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: brewery_data_pipeline.transform_silver_layer manual__2026-03-15T06:00:05.682012+00:00 [queued]>
+[2026-03-15T06:02:11.605+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-03-15T06:02:11.621+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): transform_silver_layer> on 2026-03-15 06:00:05.682012+00:00
+[2026-03-15T06:02:11.625+0000] {standard_task_runner.py:60} INFO - Started process 329 to run task
+[2026-03-15T06:02:11.628+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'brewery_data_pipeline', 'transform_silver_layer', 'manual__2026-03-15T06:00:05.682012+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/brewery_pipeline.py', '--cfg-path', '/tmp/tmpop7m60xj']
+[2026-03-15T06:02:11.630+0000] {standard_task_runner.py:88} INFO - Job 7: Subtask transform_silver_layer
+[2026-03-15T06:02:11.646+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2026-03-15T06:02:11.707+0000] {task_command.py:423} INFO - Running <TaskInstance: brewery_data_pipeline.transform_silver_layer manual__2026-03-15T06:00:05.682012+00:00 [running]> on host d8795bf56cc1
+[2026-03-15T06:02:11.775+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='brewery_data_pipeline' AIRFLOW_CTX_TASK_ID='transform_silver_layer' AIRFLOW_CTX_EXECUTION_DATE='2026-03-15T06:00:05.682012+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-15T06:00:05.682012+00:00'
+[2026-03-15T06:02:11.777+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-03-15T06:02:11.779+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'bash /opt/***/scripts/run_pyspark.sh /opt/***/scripts/transform_silver.py 2026-03-15']
+[2026-03-15T06:02:11.787+0000] {subprocess.py:86} INFO - Output:
+[2026-03-15T06:02:11.793+0000] {subprocess.py:93} INFO - --- Iniciando script PySpark: /opt/***/scripts/transform_silver.py para a data: 2026-03-15 ---
+[2026-03-15T06:02:11.796+0000] {subprocess.py:93} INFO - Erro: Um ou mais JARs do Hadoop S3A, AWS SDK ou Hadoop Common não encontrados em /opt/spark/jars.
+[2026-03-15T06:02:11.797+0000] {subprocess.py:93} INFO - Conteúdo de /opt/spark/jars:
+[2026-03-15T06:02:11.802+0000] {subprocess.py:93} INFO - total 368528
+[2026-03-15T06:02:11.802+0000] {subprocess.py:93} INFO - -rw-r--r-- 1 root root 371970145 Mar  4  2024 aws-java-sdk-bundle-1.12.672.jar
+[2026-03-15T06:02:11.803+0000] {subprocess.py:93} INFO - -rw-r--r-- 1 root root    786622 Jun 18  2023 hadoop-aws-3.3.6.jar
+[2026-03-15T06:02:11.805+0000] {subprocess.py:93} INFO - -rw-r--r-- 1 root root   4603101 Jun 18  2023 hadoop-common-3.3.6.jar
+[2026-03-15T06:02:11.806+0000] {subprocess.py:97} INFO - Command exited with return code 1
+[2026-03-15T06:02:11.815+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/bash.py", line 212, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-03-15T06:02:11.822+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=brewery_data_pipeline, task_id=transform_silver_layer, execution_date=20260315T060005, start_date=20260315T060211, end_date=20260315T060211
+[2026-03-15T06:02:11.838+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 7 for task transform_silver_layer (Bash command failed. The command returned a non-zero exit code 1.; 329)
+[2026-03-15T06:02:11.881+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-03-15T06:02:11.897+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
