@@ -109,22 +109,6 @@ Gold Layer Diagram:
 
 ![MinIO - Gold Layer](images/MinIO_Camada_gold.png)
 
-```mermaid
-graph TD
-    A[Open Brewery API] --> B[Extraction]
-    B --> C[Bronze Layer: Raw JSON]
-    C --> D[Silver Transformation]
-    D --> E[Silver Layer: Clean Parquet, Partitioned]
-    E --> F[Gold Aggregation]
-    F --> G[Gold Layer: Analytical Parquet]
-    
-    style A fill:#e1f5fe
-    style C fill:#fff3e0
-    style E fill:#e8f5e8
-    style G fill:#fce4ec
-```
-
-![MinIO - Layer Overview](images/MinIO_Camadas.png)
 
 ## Technologies Used
 
