@@ -1,117 +1,122 @@
-# Pipeline de Dados de Cervejarias - Arquitetura Medallion
+# Brewery Data Pipeline - Medallion Architecture
 
-## Descrição do Projeto
+## Project Overview
 
-Este projeto implementa um pipeline de dados completo para coletar, processar e analisar informações sobre cervejarias utilizando a API Open Brewery DB. O objetivo é demonstrar habilidades em engenharia de dados, seguindo a arquitetura Medallion (Bronze, Silver e Gold), com orquestração usando Apache Airflow, processamento com PySpark e armazenamento em um data lake simulado com MinIO.
+This project implements a complete data pipeline to collect, process, and analyze brewery information using the Open Brewery DB API. The goal is to showcase data engineering skills by following the Medallion architecture (Bronze, Silver, Gold), orchestrating tasks with Apache Airflow, processing with PySpark, and storing data in a simulated data lake using MinIO.
 
-O pipeline extrai dados brutos da API, transforma-os em formatos otimizados e gera agregações analíticas, tudo de forma automatizada e escalável.
+The pipeline extracts raw data from the API, transforms it into optimized formats, and generates analytical aggregations in an automated, scalable way.
 
-## Arquitetura do Data Lake (Medallion)
+## Data Lake Architecture (Medallion)
 
-A arquitetura Medallion divide o data lake em três camadas principais:
+The Medallion architecture splits the data lake into three layers:
 
-### Camada Bronze (Raw Data)
-- **Propósito**: Armazenamento dos dados brutos exatamente como recebidos da fonte.
-- **Formato**: JSON nativo da API.
-- **Localização**: `s3a://brewery-datalake/bronze/breweries/{data}/breweries_raw.json`
+### Bronze Layer (Raw Data)
+- **Purpose**: Store raw data exactly as received from the source.
+- **Format**: API-native JSON.
+- **Location**: `s3a://brewery-datalake/bronze/breweries/{date}/breweries_raw.json`
 
 ```plaintext
-Diagrama da Camada Bronze:
+Bronze Layer Diagram:
 
 +---------------------+
-|   API Open Brewery  |
-|       DB            |
+|   Open Brewery API  |
 +---------------------+
           |
           v
 +---------------------+
-|   Extração          |
+|   Extraction        |
 |   (extract_breweries.py) |
 +---------------------+
           |
           v
 +---------------------+
-|   Camada Bronze     |
-|   - Formato: JSON   |
-|   - Dados brutos    |
-|   - Local: MinIO    |
+|   Bronze Layer      |
+|   - Format: JSON    |
+|   - Raw data        |
+|   - Location: MinIO |
 +---------------------+
 ```
 
-### Camada Silver (Curated Data)
-- **Propósito**: Dados transformados e limpos, prontos para análise.
-- **Transformações**:
-  - Padronização de campos nulos (ex.: `state_province` usa `state` como fallback).
-  - Remoção de duplicatas por ID.
-  - Conversão para formato columnar Parquet.
-- **Particionamento**: Por localização (`state_province`).
-- **Formato**: Parquet.
-- **Localização**: `s3a://brewery-datalake/silver/breweries/{data}/`
+![MinIO - Bronze Layer](images/MinIO_Camada_bronze.png)
+
+### Silver Layer (Curated Data)
+- **Purpose**: Store cleaned, transformed data ready for analysis.
+- **Transformations**:
+  - Normalize null fields (e.g., use `state` when `state_province` is missing).
+  - Remove duplicates by `id`.
+  - Convert to columnar Parquet format.
+- **Partitioning**: By location (`state_province`).
+- **Format**: Parquet.
+- **Location**: `s3a://brewery-datalake/silver/breweries/{date}/`
 
 ```plaintext
-Diagrama da Camada Silver:
+Silver Layer Diagram:
 
 +---------------------+
-|   Camada Bronze     |
+|   Bronze Layer      |
 |   (JSON)            |
 +---------------------+
           |
           v
 +---------------------+
-|   Transformação     |
+|   Transformation    |
 |   (transform_silver.py) |
-|   - Limpeza de dados |
-|   - Deduplicação     |
-|   - Particionamento  |
+|   - Data cleaning   |
+|   - Deduplication   |
+|   - Partitioning    |
 +---------------------+
           |
           v
 +---------------------+
-|   Camada Silver     |
-|   - Formato: Parquet|
-|   - Particionado por |
+|   Silver Layer      |
+|   - Format: Parquet |
+|   - Partitioned by  |
 |     state_province  |
 +---------------------+
 ```
 
-### Camada Gold (Aggregated Data)
-- **Propósito**: Dados agregados para relatórios e análises rápidas.
-- **Agregações**: Contagem de cervejarias por tipo e localização.
-- **Formato**: Parquet.
-- **Localização**: `s3a://brewery-datalake/gold/brewery_summary/{data}/`
+![MinIO - Silver Layer](images/MinIO_Camada_silver.png)
+
+### Gold Layer (Aggregated Data)
+- **Purpose**: Store aggregated data optimized for reporting and analysis.
+- **Aggregations**: Brewery counts by type and location.
+- **Format**: Parquet.
+- **Location**: `s3a://brewery-datalake/gold/brewery_summary/{date}/`
 
 ```plaintext
-Diagrama da Camada Gold:
+Gold Layer Diagram:
 
 +---------------------+
-|   Camada Silver     |
+|   Silver Layer      |
 |   (Parquet)         |
 +---------------------+
           |
           v
 +---------------------+
-|   Agregação         |
+|   Aggregation       |
 |   (aggregate_gold.py)|
-|   - Contagem por     |
-|     tipo e local    |
+|   - Count by type   |
+|     and location    |
 +---------------------+
           |
           v
 +---------------------+
-|   Camada Gold       |
-|   - Formato: Parquet|
-|   - Dados agregados |
+|   Gold Layer        |
+|   - Format: Parquet |
+|   - Aggregated data |
 +---------------------+
 ```
 
+![MinIO - Gold Layer](images/MinIO_Camada_gold.png)
+
 ```mermaid
 graph TD
-    A[API Open Brewery DB] --> B[Extração]
-    B --> C[Camada Bronze: Dados Brutos em JSON]
-    C --> D[Transformação Silver]
-    D --> E[Camada Silver: Dados Limpos em Parquet, Particionados por Localização]
-    E --> F[Agregação Gold]
-    F --> G[Camada Gold: Agregações Analíticas em Parquet]
+    A[Open Brewery API] --> B[Extraction]
+    B --> C[Bronze Layer: Raw JSON]
+    C --> D[Silver Transformation]
+    D --> E[Silver Layer: Clean Parquet, Partitioned]
+    E --> F[Gold Aggregation]
+    F --> G[Gold Layer: Analytical Parquet]
     
     style A fill:#e1f5fe
     style C fill:#fff3e0
@@ -119,353 +124,282 @@ graph TD
     style G fill:#fce4ec
 ```
 
-## Tecnologias Utilizadas
+![MinIO - Layer Overview](images/MinIO_Camadas.png)
 
-- **Orquestração**: Apache Airflow 2.8.1
-- **Processamento**: PySpark 3.5.0
-- **Armazenamento**: MinIO (simulando S3)
-- **Banco de Dados**: PostgreSQL (para metadados do Airflow)
-- **Linguagem**: Python 3.8
-- **Containerização**: Docker e Docker Compose
-- **Bibliotecas**: requests, minio, pyspark
+## Technologies Used
 
-## Pré-requisitos
+- **Orchestration**: Apache Airflow 2.8.1
+- **Processing**: PySpark 3.5.0
+- **Storage**: MinIO (S3 compatible)
+- **Metadata DB**: PostgreSQL (for Airflow metadata)
+- **Language**: Python 3.8
+- **Containerization**: Docker and Docker Compose
+- **Libraries**: requests, minio, pyspark
 
-Antes de executar o projeto, certifique-se de que sua máquina possui:
+## Prerequisites
 
-- **Docker**: Versão 20.10 ou superior.
-- **Docker Compose**: Versão 2.0 ou superior.
-- **Git**: Para clonar o repositório.
-- **Pelo menos 4GB de RAM disponível** (recomendado 8GB para melhor performance).
-- **Espaço em disco**: Pelo menos 5GB livres para containers e dados.
+Before running the project, make sure you have:
 
-Se você não tiver Docker instalado, siga as instruções oficiais:
-- [Instalar Docker no Windows](https://docs.docker.com/desktop/install/windows-install/)
-- [Instalar Docker no macOS](https://docs.docker.com/desktop/install/mac-install/)
-- [Instalar Docker no Linux](https://docs.docker.com/engine/install/)
+- **Docker**: Version 20.10 or later.
+- **Docker Compose**: Version 2.0 or later.
+- **Git**: For cloning the repository.
+- **At least 4GB of RAM available** (8GB recommended).
+- **At least 5GB of free disk space** for containers and data.
 
-## Instalação e Configuração
+If Docker is not installed, follow the official guides:
+- [Install Docker on Windows](https://docs.docker.com/desktop/install/windows-install/)
+- [Install Docker on macOS](https://docs.docker.com/desktop/install/mac-install/)
+- [Install Docker on Linux](https://docs.docker.com/engine/install/)
 
-1. **Clone o repositório**:
+## Setup & Configuration
+
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/seu-usuario/brewery-data-pipeline.git
-   cd brewery-data-pipeline
+   git clone https://github.com/abnerrbarreto-dataEng/Tech_Challenge_Data_Engineer.git
+   cd Tech_Challenge_Data_Engineer
    ```
 
-2. **Verifique os arquivos**:
-   - Certifique-se de que todos os arquivos estão presentes, especialmente `docker-compose.yaml`, `Dockerfile` e as pastas `dags/`, `scripts/`.
+2. **Verify the files**:
+   - Ensure the key files exist: `docker-compose.yaml`, `Dockerfile`, and folders `dags/`, `scripts/`.
 
-3. **Configure variáveis de ambiente (opcional)**:
-   - O projeto usa valores padrão, mas você pode ajustar no `docker-compose.yaml` se necessário.
+3. **Configure environment variables (optional)**:
+   - The project uses default settings, but you can update them in `docker-compose.yaml`.
 
-## Como Executar
+## Running Tests
 
-### 1. Subir os Containers
+The repo includes automated tests that validate core data integrity checks (pagination, data transformations, and aggregation outputs). To run the test suite:
 
-Execute o comando abaixo na raiz do projeto:
+```bash
+pip install -r requirements.txt
+pytest
+```
+
+## Running the Pipeline
+
+### 1. Start the Containers
+
+Run the following command from the project root:
 
 ```bash
 docker-compose up --build
 ```
 
-Este comando irá:
-- Construir a imagem do Airflow com PySpark e dependências.
-- Iniciar os serviços: Airflow Webserver, Scheduler, Worker, PostgreSQL e MinIO.
+This will:
+- Build the Airflow image with PySpark and dependencies.
+- Start the services: Airflow Webserver, Scheduler, Worker, PostgreSQL, and MinIO.
 
 ```plaintext
-Exemplo de Comando para Subir Containers:
+Example command output:
 
-No terminal, execute:
-docker-compose up --build
-
-Isso irá:
-- Construir a imagem do Airflow
-- Iniciar serviços: Airflow, PostgreSQL, MinIO
-- Aguardar saúde dos serviços
-
-Output esperado:
 Creating network...
 Building airflow...
 Starting postgres...
 Starting minio...
 Starting airflow-webserver...
 
-Acesse: http://localhost:8080
+Access: http://localhost:8080
 ```
 
-A primeira execução pode levar alguns minutos devido ao download das imagens e construção.
+![Docker Desktop - Containers](images/Docker_Images.png)
 
-### 2. Acessar o Airflow
+The first run may take several minutes due to image downloads and build steps.
+
+### 2. Access Airflow
 
 - **URL**: http://localhost:8080
-- **Usuário**: airflow
-- **Senha**: airflow
+- **User**: airflow
+- **Password**: airflow
 
-Na interface do Airflow, você verá o DAG `brewery_data_pipeline`.
+In the Airflow UI you will find the DAG `brewery_data_pipeline`.
 
 ```plaintext
-Interface do Airflow:
+Airflow UI:
 
 - URL: http://localhost:8080
-- Usuário: airflow
-- Senha: airflow
+- User: airflow
+- Password: airflow
 
-Na tela inicial, você verá:
-- Lista de DAGs
+On the main page you will see:
+- List of DAGs
 - Status: Paused/Running
-- Últimas execuções
+- Recent runs
 
-Para o DAG 'brewery_data_pipeline':
-- Clique para ver detalhes
-- Botão 'Trigger DAG' para executar
+For the DAG `brewery_data_pipeline`:
+- Click to view details
+- Use the "Trigger DAG" button to run
 ```
 
-### 3. Executar o Pipeline
+![Airflow - Home](images/Airflow_tela_Inicial.png)
 
-- No Airflow UI, ative o DAG clicando no botão de toggle.
-- Clique em "Trigger DAG" para executar manualmente, ou aguarde o agendamento diário.
+![Airflow - DAG](images/Airflow_DAG.png)
 
-O pipeline executará as tarefas em sequência: extração, transformação e agregação.
+### 3. Run the Pipeline
 
-### 4. Verificar os Dados
+- In the Airflow UI, toggle the DAG to active.
+- Click "Trigger DAG" to run it manually, or wait for the daily schedule.
 
-Acesse o MinIO em http://localhost:9001 (credenciais: minioadmin/minioadmin) para visualizar os arquivos nas camadas Bronze, Silver e Gold.
+The pipeline runs tasks in sequence: extraction → transformation → aggregation.
+
+### 4. Inspect the Data
+
+Open MinIO at http://localhost:9001 (credentials: minioadmin/minioadmin) to explore the Bronze/Silver/Gold layers.
+
+![MinIO - Overview](images/MinIO_Camadas.png)
 
 ```plaintext
-Interface do MinIO:
+MinIO UI:
 
 - URL: http://localhost:9001
-- Usuário: minioadmin
-- Senha: minioadmin
+- User: minioadmin
+- Password: minioadmin
 
 Buckets:
 - brewery-datalake
   - bronze/
     - breweries/
-      - {data}/breweries_raw.json
+      - {date}/breweries_raw.json
   - silver/
     - breweries/
-      - {data}/ (particionado)
+      - {date}/ (partitioned)
   - gold/
     - brewery_summary/
-      - {data}/ (agregado)
+      - {date}/ (aggregated)
 ```
 
-### 5. Parar os Containers
+### 5. Stop the Containers
 
-Para parar tudo:
+To stop everything:
 
 ```bash
 docker-compose down
 ```
 
-Para remover volumes também:
+To also remove volumes:
 
 ```bash
 docker-compose down -v
 ```
 
-## Estrutura do Projeto
+## Project Structure
 
 ```
 brewery-data-pipeline/
 ├── dags/
-│   └── brewery_pipeline.py      # DAG do Airflow definindo o pipeline
+│   └── brewery_pipeline.py      # Airflow DAG defining the pipeline
 ├── scripts/
-│   ├── extract_breweries.py     # Script para extrair dados da API e salvar na Bronze
-│   ├── transform_silver.py      # Script PySpark para transformar Bronze em Silver
-│   ├── aggregate_gold.py        # Script PySpark para agregar Silver em Gold
-│   └── run_pyspark.sh           # Script shell para executar PySpark
-├── logs/                        # Logs das execuções do Airflow
-├── plugins/                     # Plugins customizados do Airflow (vazio)
-├── tests/                       # Testes unitários (não implementados ainda)
-├── images/                      # Imagens para documentação
-├── docker-compose.yaml          # Configuração dos serviços Docker
-├── Dockerfile                   # Imagem customizada do Airflow
-├── requirements.txt             # Dependências Python
-└── README.md                    # Esta documentação
+│   ├── extract_breweries.py     # Extracts API data to Bronze
+│   ├── transform_silver.py      # PySpark transformation from Bronze to Silver
+│   ├── aggregate_gold.py        # PySpark aggregation from Silver to Gold
+│   └── run_pyspark.sh           # Shell wrapper to run PySpark jobs
+├── logs/                        # Airflow run logs
+├── tests/                       # Automated test suite (pytest)
+├── images/                      # Documentation screenshots
+├── docker-compose.yaml          # Docker Compose configuration
+├── Dockerfile                   # Custom Airflow image build
+├── requirements.txt             # Python dependencies
+└── README.md                    # This documentation
 ```
 
-- **dags/**: Contém o arquivo de definição do pipeline no Airflow.
-- **scripts/**: Scripts Python e shell que executam as transformações de dados.
-- **logs/**: Armazena logs das execuções do pipeline.
-- **plugins/**: Pasta para plugins do Airflow (atualmente vazia).
-- **tests/**: Destinada a testes, mas ainda não possui conteúdo.
+- **dags/**: Contains the Airflow DAG definition.
+- **scripts/**: Python and shell scripts that run transformations.
+- **logs/**: Stores pipeline execution logs.
 
-## Explicação do Código e Tratamento de Erros
+## Code Overview and Error Handling
 
-### Pipeline Principal (brewery_pipeline.py)
+### Main Pipeline (brewery_pipeline.py)
 
-O DAG define três tarefas principais:
+The DAG defines three main tasks:
 
-1. **extract_bronze_layer**: Executa `extract_breweries.py` para buscar dados da API.
-2. **transform_silver_layer**: Executa `transform_silver.py` via PySpark.
-3. **aggregate_gold_layer**: Executa `aggregate_gold.py` via PySpark.
+1. **extract_bronze_layer**: Runs `extract_breweries.py` to pull data from the API.
+2. **transform_silver_layer**: Runs `transform_silver.py` using PySpark.
+3. **aggregate_gold_layer**: Runs `aggregate_gold.py` using PySpark.
 
-Cada tarefa tem configuração de retry (1 tentativa) e dependências sequenciais.
+Each task has a retry configuration (1 attempt) and sequential dependencies.
 
-### Extração de Dados (extract_breweries.py)
+### Data Extraction (extract_breweries.py)
 
-- **Funcionalidade**: Faz requisições paginadas à API Open Brewery DB, coletando todas as cervejarias.
-- **Tratamento de Erros**:
-  - Captura erros HTTP e de conexão, relançando exceções para o Airflow.
-  - Valida JSON recebido.
-  - Verifica existência do bucket MinIO antes de salvar.
-- **Exemplo de Execução**: Salva dados como JSON no MinIO.
+- **Functionality**: Pages through the Open Brewery DB API, collecting all breweries.
+- **Error Handling**:
+  - Catches HTTP and connection errors and raises them so Airflow marks the task as failed.
+  - Validates the JSON response.
+  - Validates record integrity (required fields like `id`, `name`, `brewery_type`) before saving.
+  - Ensures the MinIO bucket exists before writing.
+- **Output**: Saves raw JSON to MinIO.
 
 ```plaintext
-Fluxo de Extração:
+Extraction Flow:
 
-1. Conectar à API Open Brewery DB
-2. Paginar requisições (50 por página)
-3. Coletar todos os dados
-4. Salvar como JSON no MinIO (Bronze)
+1. Connect to Open Brewery DB API
+2. Page through results (50 per page)
+3. Collect all records
+4. Save as JSON to MinIO (Bronze)
 
-Tratamento de Erros:
-- Retry em falhas HTTP
-- Validação de JSON
-- Logs detalhados
+Error Handling:
+- Retry on HTTP failures
+- JSON validation
+- Detailed logs
 ```
 
-### Transformação Silver (transform_silver.py)
+### Silver Transformation (transform_silver.py)
 
-- **Funcionalidade**: Lê JSON da Bronze, aplica transformações e salva como Parquet particionado.
-- **Tratamento de Erros**:
-  - Verifica se há dados na Bronze.
-  - Trata campos nulos com coalesce.
-  - Remove duplicatas.
-  - Relança exceções para falha no pipeline.
-- **Exemplo**: Dados particionados por estado/província.
+- **Functionality**: Reads Bronze JSON, applies transformations, and writes partitioned Parquet.
+- **Error Handling**:
+  - Checks if Bronze data exists.
+  - Uses coalesce for null fields.
+  - Removes duplicates.
+  - Raises exceptions to fail the task if needed.
+- **Example**: Data partitioned by state/province.
 
 ```plaintext
-Transformação Silver:
+Silver Transformation:
 
-1. Ler JSON da Bronze
-2. Coalesce campos nulos (state_province)
-3. Remover duplicatas por ID
-4. Converter para Parquet
-5. Particionar por state_province
-6. Salvar no MinIO
+1. Read Bronze JSON
+2. Coalesce null state_province
+3. Deduplicate by id
+4. Convert to Parquet
+5. Partition by state_province
+6. Write to MinIO
 
-Exemplo de Transformação:
-- Campo nulo -> Usar fallback
-- Deduplicação: Manter único por ID
+Transformation examples:
+- Null field fallback
+- Deduplication
 ```
 
-### Agregação Gold (aggregate_gold.py)
+### Gold Aggregation (aggregate_gold.py)
 
-- **Funcionalidade**: Agrega contagens por tipo de cervejaria e localização.
-- **Tratamento de Erros**:
-  - Verifica dados na Silver.
-  - Agrupa e conta, ordenando resultados.
-  - Salva em Parquet.
-- **Exemplo**: Tabela com quantidades por tipo e local.
+- **Functionality**: Aggregates counts by brewery type and location.
+- **Error Handling**:
+  - Confirms Silver data exists.
+  - Groups and counts, sorting results.
+  - Writes aggregated results to Parquet.
+- **Example**: Count of breweries by type and location.
 
 ```plaintext
-Agregação Gold:
+Gold Aggregation:
 
-1. Ler Parquet da Silver
-2. Agrupar por brewery_type e state_province
-3. Contar quantidade (qtd_breweries)
-4. Ordenar resultados
-5. Salvar como Parquet no MinIO
+1. Read Silver Parquet
+2. Group by brewery_type and state_province
+3. Count breweries
+4. Sort results
+5. Write to MinIO
 
-Exemplo de Saída:
+Example output:
 brewery_type | state_province | qtd_breweries
 micro        | California     | 150
 brewpub      | Texas          | 80
 ```
 
-### Tratamento Geral de Erros
+### General Error Handling
 
-- **Retries**: Airflow tenta novamente tarefas falhadas (1 vez por padrão).
-- **Logs**: Todos os scripts logam mensagens detalhadas para debug.
-- **Exceções**: Erros são relançados para que o Airflow marque tarefas como falhadas.
-- **Validações**: Scripts verificam existência de dados antes de processar.
+- **Retries**: Airflow retries failed tasks (1 retry by default).
+- **Logs**: Scripts print detailed logs for debugging.
+- **Exceptions**: Errors are raised so Airflow marks tasks as failed.
+- **Validations**: Scripts validate presence of data before processing.
 
-## Monitoramento e Alertas
+## Monitoring and Alerting
 
-Para garantir a saúde e confiabilidade do pipeline, algumas sugestões de processos de monitoramento incluem observar de perto os indicadores de performance e possíveis pontos de falha. Por exemplo, podemos acompanhar métricas como o tempo de execução de cada tarefa, o volume de dados processados e a taxa de sucesso das operações. Em relação a questões de qualidade dos dados, é importante verificar regularmente a integridade das informações extraídas, como a presença de campos obrigatórios, a consistência dos tipos de dados e a ausência de duplicatas inesperadas.
+To keep the pipeline healthy and reliable, some monitoring suggestions include tracking execution metrics and failure rates. For data quality, we can monitor whether required fields are present, whether data types are consistent, and whether there are unexpected duplicates.
 
-No caso de falhas no pipeline, podemos implementar alertas automáticos que notifiquem a equipe responsável sempre que uma tarefa não for concluída com sucesso, permitindo uma resposta rápida para investigar e corrigir problemas. Isso pode incluir notificações por email, mensagens em ferramentas de comunicação como Slack ou integrações com sistemas de monitoramento como Prometheus e Grafana.
+For pipeline failures, automated alerts can notify the responsible team when a task fails, enabling quick investigation and resolution. This could include email alerts, Slack notifications, or integrations with monitoring tools like Prometheus and Grafana.
 
-Além disso, para detectar anomalias, podemos configurar thresholds para métricas críticas, como o número mínimo de registros esperados em cada camada, e alertar quando esses limites não forem atingidos. Uma prática útil é também manter logs detalhados e dashboards visuais que permitam visualizar o fluxo de dados em tempo real, facilitando a identificação precoce de gargalos ou inconsistências.
-
-## Testes
-
-Atualmente, a pasta `tests/` está vazia. Para uma implementação completa, recomenda-se adicionar:
-
-- Testes unitários para funções de extração e transformação.
-- Testes de integração para o pipeline completo.
-- Mocks para APIs e serviços externos.
-
-Exemplo de estrutura futura:
-```
-tests/
-├── test_extract.py
-├── test_transform.py
-└── test_aggregate.py
-```
-
-## Contribuição
-
-Contribuições são bem-vindas! Para contribuir:
-
-1. Fork o projeto.
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`).
-4. Push para a branch (`git push origin feature/nova-feature`).
-5. Abra um Pull Request.
-
-## Como Visualizar Este README com Imagens
-
-Como o README contém referências a imagens locais, para visualizá-lo formatado:
-
-1. **No VS Code**:
-   - Clique direito no arquivo `README.md` no Explorer.
-   - Selecione **"Open Preview"** ou **"Open Preview to the Side"**.
-   - Atalho: `Ctrl + Shift + V`.
-
-```plaintext
-Como Abrir Preview no VS Code:
-
-1. Clique direito no README.md no Explorer
-2. Selecione "Open Preview" ou "Open Preview to the Side"
-3. Alternativa: Ctrl + Shift + V
-
-O preview renderiza o Markdown com formatação.
-```
-
-````plaintext
-Exemplo de Preview do README:
-
-# Título Principal
-
-## Subtítulo
-
-- Lista item 1
-- Lista item 2
-
-**Negrito** e *itálico*.
-
-[Link](url)
-
-![Imagem](images/exemplo.png)
-
-Código:
-```python
-print("Olá")
-```
-````
-
-2. **Alternativas**:
-   - Instale a extensão "Markdown Preview Enhanced" para mais recursos.
-   - Use um conversor online como [Dillinger](https://dillinger.io/) colando o conteúdo.
-
-## Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
----
-
-**Nota**: Este projeto foi desenvolvido como parte de um desafio técnico de engenharia de dados. Para questões ou sugestões, abra uma issue no repositório.
+Additionally, anomaly detection can be implemented by setting thresholds for key metrics (e.g., minimum record counts per layer) and alerting when those thresholds are not met. Keeping detailed logs and dashboards can also help detect bottlenecks or inconsistencies early.

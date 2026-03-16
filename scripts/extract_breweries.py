@@ -1,8 +1,10 @@
-import requests
+import io
 import json
 import os
 from datetime import datetime
 import argparse
+
+import requests
 from minio import Minio
 from minio.error import S3Error
 
@@ -68,10 +70,33 @@ def fetch_all_breweries():
     print(f"Busca completa. Total de cervejarias encontradas: {len(all_breweries)}")
     return all_breweries
 
+REQUIRED_FIELDS = [
+    "id",
+    "name",
+    "brewery_type",
+]
+
+
+def validate_records(records):
+    """Validate a list of brewery records.
+
+    This performs basic integrity checks before writing data to storage.
+    """
+    if not isinstance(records, list):
+        raise ValueError("Data must be a list of brewery records.")
+
+    for i, record in enumerate(records, start=1):
+        if not isinstance(record, dict):
+            raise ValueError(f"Record {i} is not an object: {record}")
+        missing = [f for f in REQUIRED_FIELDS if f not in record or record.get(f) in (None, "")]
+        if missing:
+            raise ValueError(f"Record {i} is missing required fields: {missing}")
+
+
 def save_raw_data_to_s3(client, bucket_name, object_name, data):
-    """
-    Salva os dados como JSON no MinIO (S3).
-    """
+    """Salva os dados como JSON no MinIO (S3)."""
+    validate_records(data)
+
     json_data = json.dumps(data, ensure_ascii=False, indent=4).encode('utf-8')
     try:
         client.put_object(

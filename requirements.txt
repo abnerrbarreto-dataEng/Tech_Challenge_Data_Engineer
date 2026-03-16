@@ -2,3 +2,4 @@ apache-airflow==2.8.1
 pyspark==3.5.0
 requests==2.31.0
 minio==7.1.16
+pytest==7.4.0

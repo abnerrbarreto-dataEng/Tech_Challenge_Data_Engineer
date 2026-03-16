@@ -1,7 +1,0 @@
-Como Abrir Preview no VS Code:
-
-1. Clique direito no README.md no Explorer
-2. Selecione "Open Preview" ou "Open Preview to the Side"
-3. Alternativa: Ctrl + Shift + V
-
-O preview renderiza o Markdown com formatação.
