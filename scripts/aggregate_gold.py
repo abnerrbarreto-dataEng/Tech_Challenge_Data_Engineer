@@ -5,7 +5,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import count, col
 
 # --- Configuração de Caminhos ---
-# Agora o BASE_PATH aponta para o bucket MinIO (S3a)
 BASE_PATH = "s3a://brewery-datalake"
 
 def create_spark_session():
@@ -71,7 +70,7 @@ def aggregate_to_gold(spark, execution_date):
 
     except Exception as e:
         print(f"Gold: Erro ao processar a camada Silver para Gold para a data {execution_date}: {e}")
-        raise # Re-lança o erro para o Airflow capturar
+        raise 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Aggregate data from Silver to Gold layer using PySpark.")
@@ -80,9 +79,7 @@ if __name__ == "__main__":
 
     if not args.execution_date:
         args.execution_date = datetime.now().strftime("%Y-%m-%d")
-
-    # A limpeza de diretório com shutil.rmtree não é mais necessária aqui.
-    
+            
     spark = create_spark_session()
     aggregate_to_gold(spark, args.execution_date)
     spark.stop()

@@ -4,23 +4,22 @@ from datetime import datetime
 
 with DAG(
     dag_id='brewery_data_pipeline',
-    start_date=datetime(2023, 1, 1), # Data de início histórica para permitir re-runs
-    schedule_interval='@daily',      # Roda diariamente
-    catchup=False,                   # Não roda para datas passadas desde start_date até hoje
+    start_date=datetime(2023, 1, 1),
+    schedule_interval='@daily',      
+    catchup=False,                   
     tags=['brewery', 'data_lake', 'medallion'],
     default_args={
         'owner': 'airflow',
         'depends_on_past': False,
         'email_on_failure': False,
         'email_on_retry': False,
-        'retries': 1, # Tenta novamente 1 vez em caso de falha
+        'retries': 1, 
         # 'retry_delay': timedelta(minutes=5),
     }
 ) as dag:
     # Task 1: Extrair dados da API e carregar para a camada Bronze
     extract_bronze = BashOperator(
         task_id='extract_bronze_layer',
-        # O {{ ds }} é uma macro do Airflow que representa a "data de execução" no formato YYYY-MM-DD
         bash_command='python /opt/airflow/scripts/extract_breweries.py --execution_date {{ ds }}',
     )
 

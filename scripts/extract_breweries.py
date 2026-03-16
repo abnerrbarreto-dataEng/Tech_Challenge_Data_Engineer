@@ -112,7 +112,7 @@ def save_raw_data_to_s3(client, bucket_name, object_name, data):
         raise
 
 if __name__ == "__main__":
-    import io # Precisa importar aqui para save_raw_data_to_s3
+    import io
 
     parser = argparse.ArgumentParser(description="Extract brewery data from API.")
     parser.add_argument("--execution_date", help="The logical execution date in YYYY-MM-DD format.")
